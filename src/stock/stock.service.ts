@@ -9,15 +9,6 @@ import { PaginationDto } from 'src/common/dto/pagination.dto';
 export class StockService {
   constructor(private prisma: PrismaService) {}
 
-  private item: Item[] = [
-    {
-      id: 1,
-      description: 'Parafuso M12 por 30 mm',
-      amount: 10,
-      ctrlEst: false,
-    },
-  ];
-
   async listStock(paginationDto?: PaginationDto) {
     const { limit = 10, offset = 0 } = paginationDto || {};
 

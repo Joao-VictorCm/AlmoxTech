@@ -9,16 +9,19 @@ import {
   Post,
   Put,
   Query,
+  UseInterceptors,
 } from '@nestjs/common';
 import { StockService } from './stock.service';
 import { CreateItemDto } from './dto/create-item.dto';
 import { UpdateItemDto } from './dto/update-item.dto';
 import { PaginationDto } from 'src/common/dto/pagination.dto';
+import { LoggerInterceptor } from 'src/common/interceptors/logger.interceptor';
 
 @Controller('stock')
 export class StockController {
   constructor(private readonly stockService: StockService) {}
   @Get()
+  @UseInterceptors(LoggerInterceptor)
   getStock(@Query() paginationDto: PaginationDto) {
     return this.stockService.listStock(paginationDto);
   }
