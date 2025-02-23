@@ -16,12 +16,14 @@ import { CreateItemDto } from './dto/create-item.dto';
 import { UpdateItemDto } from './dto/update-item.dto';
 import { PaginationDto } from 'src/common/dto/pagination.dto';
 import { LoggerInterceptor } from 'src/common/interceptors/logger.interceptor';
+import { AddHeaderInterceptor } from 'src/common/interceptors/add-header.interceptor';
 
 @Controller('stock')
 export class StockController {
   constructor(private readonly stockService: StockService) {}
   @Get()
   @UseInterceptors(LoggerInterceptor)
+  @UseInterceptors(AddHeaderInterceptor)
   getStock(@Query() paginationDto: PaginationDto) {
     return this.stockService.listStock(paginationDto);
   }
