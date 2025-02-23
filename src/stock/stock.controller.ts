@@ -8,17 +8,19 @@ import {
   Patch,
   Post,
   Put,
+  Query,
 } from '@nestjs/common';
 import { StockService } from './stock.service';
 import { CreateItemDto } from './dto/create-item.dto';
 import { UpdateItemDto } from './dto/update-item.dto';
+import { PaginationDto } from 'src/common/dto/pagination.dto';
 
 @Controller('stock')
 export class StockController {
   constructor(private readonly stockService: StockService) {}
   @Get()
-  getStock() {
-    return this.stockService.listStock();
+  getStock(@Query() paginationDto: PaginationDto) {
+    return this.stockService.listStock(paginationDto);
   }
 
   @Get(':id')

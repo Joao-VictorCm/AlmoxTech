@@ -3,6 +3,7 @@ import { Item } from './entities/item.entity';
 import { CreateItemDto } from './dto/create-item.dto';
 import { UpdateItemDto } from './dto/update-item.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { PaginationDto } from 'src/common/dto/pagination.dto';
 
 @Injectable()
 export class StockService {
@@ -17,8 +18,16 @@ export class StockService {
     },
   ];
 
-  async listStock() {
-    const allItens = await this.prisma.item.findMany();
+  async listStock(paginationDto?: PaginationDto) {
+    const { limit = 10, offset = 0 } = paginationDto || {};
+
+    const allItens = await this.prisma.item.findMany({
+      take: limit,
+      skip: offset,
+      orderBy: {
+        createIt: 'desc',
+      },
+    });
 
     return allItens;
   }
@@ -73,7 +82,6 @@ export class StockService {
         'Falha ao atualizar o item.',
         HttpStatus.BAD_REQUEST,
       );
-      console.log(err);
     }
   }
 
@@ -104,7 +112,6 @@ export class StockService {
         'Falha ao deletar o item.',
         HttpStatus.BAD_REQUEST,
       );
-      console.log(err);
     }
   }
 }
