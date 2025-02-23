@@ -1,4 +1,13 @@
-import { Controller, Get, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Put,
+} from '@nestjs/common';
 import { StockService } from './stock.service';
 
 @Controller('stock')
@@ -15,8 +24,19 @@ export class StockController {
     return this.stockService.findOneItem(id);
   }
 
-  @Post()
-  createIten() {
-    return 'Rota de cadastro para itens';
+  @Post('/create')
+  createIten(@Body() body: any) {
+    console.log(body);
+    return this.stockService.create(body);
+  }
+
+  @Patch(':id')
+  updateItem(@Param('id') id: string, @Body() body: any) {
+    return this.stockService.update(id, body);
+  }
+
+  @Delete(':id')
+  deleteItem(@Param('id') id: string) {
+    return 'Rota para deletar o item';
   }
 }
