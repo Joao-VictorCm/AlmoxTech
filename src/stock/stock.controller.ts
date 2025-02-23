@@ -9,6 +9,7 @@ import {
   Post,
   Put,
   Query,
+  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { StockService } from './stock.service';
@@ -17,6 +18,7 @@ import { UpdateItemDto } from './dto/update-item.dto';
 import { PaginationDto } from 'src/common/dto/pagination.dto';
 import { LoggerInterceptor } from 'src/common/interceptors/logger.interceptor';
 import { AddHeaderInterceptor } from 'src/common/interceptors/add-header.interceptor';
+import { AuthAdminGuard } from 'src/common/guards/admin.guard';
 
 @Controller('stock')
 export class StockController {
@@ -48,6 +50,7 @@ export class StockController {
   }
 
   @Delete(':id')
+  @UseGuards(AuthAdminGuard)
   deleteItem(@Param('id', ParseIntPipe) id: number) {
     return this.stockService.delete(id);
   }

@@ -7,10 +7,10 @@ export class LoggerMidlleware implements NestMiddleware {
     const authorization = req.headers.authorization;
 
     if (authorization) {
-      if (authorization === '12345') {
-        return next();
-      }
-      res.status(401).json({ message: 'Token Invalido' });
+      req['user'] = {
+        token: authorization,
+        role: 'admin',
+      };
     }
     next();
   }
