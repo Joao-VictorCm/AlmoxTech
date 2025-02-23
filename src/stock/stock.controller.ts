@@ -42,6 +42,6 @@ export class StockController {
 
   @Delete(':id')
   deleteItem(@Param('id', ParseIntPipe) id: number) {
-    return 'Rota para deletar o item';
+    return this.stockService.delete(id);
   }
 }

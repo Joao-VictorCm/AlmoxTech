@@ -9,11 +9,6 @@ import {
 
 export class CreateItemDto {
   @IsString()
-  @MinLength(5)
-  @IsNotEmpty()
-  readonly name: string;
-
-  @IsString()
   @MaxLength(100)
   @IsNotEmpty()
   readonly description: string;
