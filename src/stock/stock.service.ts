@@ -1,5 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Item } from './entities/item.entity';
+import { CreateItemDto } from './dto/create-item.dto';
+import { UpdateItemDto } from './dto/update-item.dto';
 
 @Injectable()
 export class StockService {
@@ -16,16 +18,16 @@ export class StockService {
     return this.item;
   }
 
-  findOneItem(id: string) {
-    return this.item.find((item) => item.id === Number(id));
+  findOneItem(id: number) {
+    return this.item.find((item) => item.id === id);
   }
 
-  create(body: any) {
+  create(createItemDto: CreateItemDto) {
     const newId = this.item.length + 1;
 
     const newItem = {
       id: newId,
-      ...body,
+      ...createItemDto,
     };
 
     this.item.push(newItem);
@@ -33,5 +35,5 @@ export class StockService {
     return newItem;
   }
 
-  update(id: string, body: any) {}
+  update(id: number, updateItemDto: UpdateItemDto) {}
 }

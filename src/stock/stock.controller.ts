@@ -4,11 +4,14 @@ import {
   Delete,
   Get,
   Param,
+  ParseIntPipe,
   Patch,
   Post,
   Put,
 } from '@nestjs/common';
 import { StockService } from './stock.service';
+import { CreateItemDto } from './dto/create-item.dto';
+import { UpdateItemDto } from './dto/update-item.dto';
 
 @Controller('stock')
 export class StockController {
@@ -19,24 +22,26 @@ export class StockController {
   }
 
   @Get(':id')
-  onIten(@Param('id') id: string) {
+  onIten(@Param('id', ParseIntPipe) id: number) {
     console.log(id);
     return this.stockService.findOneItem(id);
   }
 
   @Post('/create')
-  createIten(@Body() body: any) {
-    console.log(body);
-    return this.stockService.create(body);
+  createIten(@Body() createItemDto: CreateItemDto) {
+    return this.stockService.create(createItemDto);
   }
 
   @Patch(':id')
-  updateItem(@Param('id') id: string, @Body() body: any) {
-    return this.stockService.update(id, body);
+  updateItem(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateItemDto: UpdateItemDto,
+  ) {
+    return this.stockService.update(id, updateItemDto);
   }
 
   @Delete(':id')
-  deleteItem(@Param('id') id: string) {
+  deleteItem(@Param('id', ParseIntPipe) id: number) {
     return 'Rota para deletar o item';
   }
 }
